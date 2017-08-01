@@ -51,6 +51,9 @@ const gpsdata = fs
         return out
     })
 
+    // sort in ascending date order
+    .sort((a, b) => a.date - b.date)
+
 fs.writeFile(dest, JSON.stringify(gpsdata))
 
 let output = `Wrote GPS exif data for ${gpsdata.length} images to '${dest}' `
