@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Trip Visualization</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100" rel="stylesheet"/>
+    <link href="../node_modules/leaflet/dist/leaflet.css" rel="stylesheet"/>
+    <script src="../node_modules/leaflet/dist/leaflet.js"></script>
+    <style> 
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        body {
+            font-family: Roboto, helvetica, arial, sans-serif;
+            text-align: center;
+            font-weight: lighter;
+            font-size: 60px;
+
+            display: flex;
+        }
+
+        #title {
+            position: absolute;
+            padding-right: 15px;
+            right: 0;
+            z-index: 500;
+            opacity: 0.35;
+            color: #37474F;
+
+            pointer-events: none;
+        }
+
+        iframe {
+            border: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        #map {
+            border: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="title">Trip Visualization</div>
+    <div id="map"></div>
+    <script type="text/javascript">
+        const dms2dec = (d, m, s, ref) => (ref === 'S' || ref === 'W' ? -1 : 1) * (d + m / 60 + s / 3600)
+
+        const map = L.map('map')
+        map.setView([42.35, -71.08], 13);
+
+        // use CartoDB-light-nolabels from 
+        // https://leaflet-extras.github.io/leaflet-providers/preview/
+        L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+            subdomains: 'abcd',
+            maxZoom: 19
+        }).addTo(map)
+
+
+        fetch('./example.json')
+            .then(res => res.json())
+            .then(json => {
+
+                const latlon = json.map(data => {
+                    const lat = dms2dec(...data.lat)
+                    const lon = dms2dec(...data.lon)
+
+                    return new L.LatLng(lat, lon)
+                })
+
+                new L.Polyline(latlon, {
+                    color: '#E91E63',
+                    weight: 0.5,
+                    opacity: 1,
+                    smoothFactor: 1
+                }).addTo(map)
+
+                map.fitBounds(new L.LatLngBounds(latlon))
+            })
+    </script>
+</body>
+</html>
