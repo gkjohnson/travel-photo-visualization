@@ -1,0 +1,19 @@
+{
+  "name": "trip-vis",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Garrett Johnson <garrett.kjohnson@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "static-server": "^2.0.5"
+  },
+  "dependencies": {
+    "deasync": "^0.1.10",
+    "exif": "^0.6.0",
+    "yargs": "^8.0.2"
+  }
+}
