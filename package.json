@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "serve": "static-server",
+    "generate": "node index.js --dest=\"example/example.json\""
   },
   "author": "Garrett Johnson <garrett.kjohnson@gmail.com>",
   "license": "ISC",
@@ -14,6 +15,7 @@
   "dependencies": {
     "deasync": "^0.1.10",
     "exif": "^0.6.0",
+    "static-server": "^2.0.5",
     "yargs": "^8.0.2"
   }
 }
