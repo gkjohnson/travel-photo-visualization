@@ -4,6 +4,8 @@ Processes EXIF data from a set of images into a thinner JSON blob that can be us
 
 [Demo Here!](https://gkjohnson.github.io/travel-photo-visualization/example/)
 
+![example](docs/example.png)
+
 ## To Run
 
 Install the npm packages with `npm install`
