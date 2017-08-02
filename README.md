@@ -17,14 +17,17 @@ Run `node index.js --dest=".../dest.json"` with the arguments described below to
 ## Command Line Arguments
 ### dest
 *Required*
+
 Destination file to output the json to
 
 ### min
 *Optional*
+
 Javascript parse-able date string that will be used to define the min bound of which images should be considered relevant
 
 ### max
 *Optional*
+
 Javascript parse-able date string that will be used to define the max bound of which images should be considered relevant
 
 ## Output
