@@ -30,7 +30,7 @@ const gpsdata = fs
     .map(file => {
         const res = getExif(`./images/${file}`)
         res.__filename = file
-        res.__jsDate = res.image.ModifyDate ? new Date(exifDate2Date(res.image.ModifyDate)) : null
+        res.__jsDate = res.exif.DateTimeOriginal ? new Date(exifDate2Date(res.exif.DateTimeOriginal)) : null
 
         return res
     })
