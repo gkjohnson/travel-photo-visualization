@@ -46,3 +46,4 @@ The output file is an array of json objects that define the image name, date, an
 - Find an appropriate trip to use as an example
 - A supplemenet CSV format in which GPS locations can be manually entered for an image
 - An "interpolation" or "nearest-time" mode where photos without data are not dropped but grouped together
+- Save view locations and zoom level for easy sharing
