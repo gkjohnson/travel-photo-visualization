@@ -58,7 +58,6 @@
     </div>
     <div id="map"></div>
     <script type="text/javascript">
-        const dms2dec = (d, m, s, ref) => (ref === 'S' || ref === 'W' ? -1 : 1) * (d + m / 60 + s / 3600)
         const toDateStr = d => `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`
 
         const map = L.map('map')
@@ -74,8 +73,8 @@
             .then(json => {
 
                 const latlon = json.map(data => {
-                    const lat = dms2dec(...data.lat)
-                    const lon = dms2dec(...data.lon)
+                    const lat = data.lat
+                    const lon = data.lon
 
                     return new L.LatLng(lat, lon)
                 })
