@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "serve": "static-server",
-    "generate": "node index.js --dest=\"example/example.json\""
+    "generate": "node index.js --dest=\"example/example.json\" --custom-locations=custom-locations.csv"
   },
   "author": "Garrett Johnson <garrett.kjohnson@gmail.com>",
   "license": "ISC",
