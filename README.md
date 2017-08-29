@@ -1,4 +1,4 @@
-# trip-photo-visualization
+# travel-photo-visualization
 
 Processes EXIF data from a set of images into a thinner JSON blob that can be used to plot the locations on a map! Built to help visualize and document trips.
 
