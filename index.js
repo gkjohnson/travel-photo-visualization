@@ -1,4 +1,4 @@
-const ExifImage = require('exif')
+ const ExifImage = require('exif')
 const deasync = require('deasync')
 const fs = require('fs')
 const args = require('yargs').argv
@@ -59,28 +59,34 @@ const dms2dec = (d, m, s, ref) => (ref === 'S' || ref === 'W' ? -1 : 1) * (d + m
 const getExif = deasync((path, done) => new ExifImage({ image: path }, done))
 
 // reduce the exif data down to just the GPS, name, and date
-const gpsdata = fs
-    .readdirSync('images')
+let data
+data = fs.readdirSync('images')
+console.log(`Found ${ data.length } files`)
 
-    // jpg files only
-    .filter(file => /\.jpg$/.test(file))
+// jpg files only
+data = data.filter(file => /\.jpg$/.test(file))
+console.log(`Found ${ data.length } jpg files`)
 
-    // pull out exif data
-    .map(file => {
+// pull out exif data
+data = data.map(file => {
         const res = getExif(`./images/${file}`)
         res.__filename = file
         res.__jsDate = res.exif.DateTimeOriginal ? new Date(exifDate2Date(res.exif.DateTimeOriginal)) : null
 
         return res
     })
-    // filter to data that provides the gps data
-    .filter(exif => !!(exif.gps.GPSLatitude || exif.gps.GPSLongitude) || exif.__filename in customLocations)
+console.log('Read exif data')
 
-    // filter to the time range
-    .filter(exif => (!minDate || exif.date > minDate) && (!maxDate || exif.date < maxDate))
+// filter to data that provides the gps data
+data = data.filter(exif => !!(exif.gps.GPSLatitude || exif.gps.GPSLongitude) || exif.__filename in customLocations)
+console.log(`Found ${ data.length } files with gps data`)
 
-    // reduce to a helpful subset of data
-    .map(exif => {
+// filter to the time range
+data = data.filter(exif => (!minDate || exif.date > minDate) && (!maxDate || exif.date < maxDate))
+console.log(`Found ${ data.length } files within the time range`)
+
+// reduce to a helpful subset of data
+data = data.map(exif => {
         const out = {}
         out.filename = exif.__filename
         out.date = exif.__jsDate
@@ -100,10 +106,11 @@ const gpsdata = fs
 
     // sort in ascending date order
     .sort((a, b) => a.date - b.date)
+console.log('Sorted')
 
-fs.writeFile(dest, JSON.stringify(gpsdata))
+fs.writeFile(dest, JSON.stringify(data))
 
-let output = `Wrote GPS exif data for ${gpsdata.length} images to '${dest}' `
+let output = `Wrote GPS exif data for ${data.length} images to '${dest}' `
 if (minDate || maxDate) {
     output += 'for photos taken '
     if (minDate) output += `after '${minDate}' `
