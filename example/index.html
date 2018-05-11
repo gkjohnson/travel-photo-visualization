@@ -58,62 +58,66 @@
     </div>
     <div id="map"></div>
     <script type="text/javascript">
-        const toDateStr = d => `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`
-
-        const map = L.map('map')
+        const toDateStr = d => `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
 
         // use CartoDB-light-nolabels from 
         // https://leaflet-extras.github.io/leaflet-providers/preview/
+        const map = L.map('map')
         L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
             maxZoom: 19
-        }).addTo(map)
+        }).addTo(map);
 
-        fetch('example.json')
-            .then(res => res.json())
-            .then(json => {
+        const loadMap = (mapjson, name) => {
+            fetch(mapjson)
+                .then(res => res.json())
+                .then(json => {
 
-                const latlon = json.map(data => {
-                    const lat = data.lat
-                    const lon = data.lon
+                    const latlon = json.map(data => {
+                        const lat = data.lat;
+                        const lon = data.lon;
 
-                    return new L.LatLng(lat, lon)
-                })
+                        return new L.LatLng(lat, lon);
+                    });
 
-                new L.Polyline(latlon, {
-                    color: '#E91E63',
-                    weight: 1,
-                    opacity: 1,
-                    smoothFactor: 1
-                }).addTo(map)
-
-                latlon.forEach(pt => {
-                    new L.Circle(pt, {
+                    new L.Polyline(latlon, {
                         color: '#E91E63',
-                        fillOpacity: 1,
-                        smoothFactor: 1,
-                        radius: 4,
-                        weight: 0
-                    }).addTo(map)
-                })
+                        weight: 1,
+                        opacity: 1,
+                        smoothFactor: 1
+                    }).addTo(map);
 
-                map.fitBounds(new L.LatLngBounds(latlon))
+                    latlon.forEach(pt => {
+                        new L.Circle(pt, {
+                            color: '#E91E63',
+                            fillOpacity: 1,
+                            smoothFactor: 1,
+                            radius: 4,
+                            weight: 0
+                        }).addTo(map);
+                    });
 
-                // Generate dates to display
-                let minDate = null
-                let maxDate = null
-                json.forEach(data => {
-                    data.date = new Date(data.date)
+                    map.fitBounds(new L.LatLngBounds(latlon));
 
-                    console.log(data.filename, data.date)
+                    // Generate dates to display
+                    let minDate = null;
+                    let maxDate = null;
+                    json.forEach(data => {
+                        data.date = new Date(data.date);
 
-                    if (!minDate || data.date < minDate) minDate = data.date
-                    if (!maxDate || data.date > maxDate) maxDate = data.date
-                })
+                        console.log(data.filename, data.date);
 
-                const dateel = document.querySelector('#dates')
-                const str = toDateStr(minDate) + ' to ' + toDateStr(maxDate)
-                dateel.innerHTML = str
-            })
+                        if (!minDate || data.date < minDate) minDate = data.date;
+                        if (!maxDate || data.date > maxDate) maxDate = data.date;
+                    });
+
+                    const str = toDateStr(minDate) + ' to ' + toDateStr(maxDate);
+                    document.getElementById('dates').innerText = str;
+                    document.getElementById('title').innerText = name;
+                });
+        };
+
+        loadMap('japan.json', 'Japan Trip');
+
     </script>
 </body>
 </html>
