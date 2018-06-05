@@ -2,12 +2,12 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-    
+
     <title>Trip Visualization</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300" rel="stylesheet"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.1.0/leaflet.css" rel="stylesheet"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.1.0/leaflet.js"></script>
-    <style> 
+    <style>
         html, body {
             margin: 0;
             padding: 0;
@@ -62,23 +62,26 @@
     <script type="text/javascript">
         const toDateStr = d => `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
 
-        // use CartoDB-light-nolabels from 
+        // use CartoDB-light-nolabels from
         // https://leaflet-extras.github.io/leaflet-providers/preview/
-        const map = L.map('map')
+        const map = L.map('map');
         L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
             maxZoom: 19
         }).addTo(map);
 
         const loadMap = (mapjson, name) => {
+
             fetch(mapjson)
                 .then(res => res.json())
                 .then(json => {
 
                     const latlon = json.map(data => {
+
                         const lat = data.lat;
                         const lon = data.lon;
 
                         return new L.LatLng(lat, lon);
+
                     });
 
                     new L.Polyline(latlon, {
@@ -89,6 +92,7 @@
                     }).addTo(map);
 
                     latlon.forEach(pt => {
+
                         new L.Circle(pt, {
                             color: '#E91E63',
                             fillOpacity: 1,
@@ -96,6 +100,7 @@
                             radius: 4,
                             weight: 0
                         }).addTo(map);
+
                     });
 
                     map.fitBounds(new L.LatLngBounds(latlon));
@@ -104,31 +109,33 @@
                     let minDate = null;
                     let maxDate = null;
                     json.forEach(data => {
+
                         data.date = new Date(data.date);
 
                         console.log(data.filename, data.date);
 
                         if (!minDate || data.date < minDate) minDate = data.date;
                         if (!maxDate || data.date > maxDate) maxDate = data.date;
+
                     });
 
                     const str = toDateStr(minDate) + ' to ' + toDateStr(maxDate);
                     document.getElementById('dates').innerText = str;
                     document.getElementById('title').innerText = name;
-                });
-        };
 
+                });
+
+        };
 
         const nameMap = { 'japan': 'Japan Trip', 'newzealand': 'New Zealand Trip' };
         const hash = window.location.hash.substr(1);
         const json = hash in nameMap ? hash : 'japan';
 
-        loadMap(`${ json }.json`, nameMap[json]);
+        loadMap(`${json}.json`, nameMap[json]);
 
         // reload the page if the has changes so we force
         // the map to refresh
         window.onhashchange = () => window.location.reload();
-
     </script>
 </body>
 </html>
