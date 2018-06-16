@@ -50,6 +50,7 @@
             border: 0;
             width: 100%;
             height: 100%;
+            background: #d4dadc;
         }
     </style>
 </head>
@@ -65,7 +66,11 @@
 
         // use CartoDB-light-nolabels from
         // https://leaflet-extras.github.io/leaflet-providers/preview/
-        const map = L.map('map');
+        // For some reason this map only seems to have data from -85 -> 85 latitude,
+        // so prevent the user from panning past that
+        const map = L.map('map', {
+            maxBounds: L.latLngBounds(L.latLng(-85, -360), L.latLng(85, 360)),
+        });
         L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
 
         const loadMap = (mapjson, name) => {
@@ -110,8 +115,6 @@
                     json.forEach(data => {
 
                         data.date = new Date(data.date);
-
-                        console.log(data.filename, data.date);
 
                         if (!minDate || data.date < minDate) minDate = data.date;
                         if (!maxDate || data.date > maxDate) maxDate = data.date;
