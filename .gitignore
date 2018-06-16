@@ -58,4 +58,4 @@ typings/
 .env
 
 # don't update images file
-images
+photo-visualization/images

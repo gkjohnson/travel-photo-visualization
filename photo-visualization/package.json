@@ -1,14 +1,8 @@
 {
-  "name": "trip-vis",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
   "scripts": {
     "serve": "static-server",
     "generate": "node index.js --dest=\"example/example.json\" --custom-locations=custom-locations.csv"
   },
-  "author": "Garrett Johnson <garrett.kjohnson@gmail.com>",
-  "license": "ISC",
   "devDependencies": {
     "static-server": "^2.0.5"
   },
