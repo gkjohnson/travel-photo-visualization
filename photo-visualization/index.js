@@ -36,7 +36,7 @@ if (args['custom-locations']) {
 
             if (err) {
 
-                console.error(`Error prcessing custom-lcations line "${line}"`);
+                console.error(`Error prcessing custom-lcations line "${ line }"`);
 
             } else {
 
@@ -48,7 +48,7 @@ if (args['custom-locations']) {
 
     } catch (e) {
 
-        console.error(`Error reading custom-locations file "${customLocationsFile}"`);
+        console.error(`Error reading custom-locations file "${ customLocationsFile }"`);
         console.error(e);
 
     }
@@ -74,16 +74,16 @@ const getExif = deasync((path, done) => new ExifImage({ image: path }, done));
 // reduce the exif data down to just the GPS, name, and date
 let data;
 data = fs.readdirSync('images');
-console.log(`Found ${data.length} files`);
+console.log(`Found ${ data.length } files`);
 
 // jpg files only
 data = data.filter(file => /\.jpg$/.test(file));
-console.log(`Found ${data.length} jpg files`);
+console.log(`Found ${ data.length } jpg files`);
 
 // pull out exif data
 data = data.map(file => {
 
-    const res = getExif(`./images/${file}`);
+    const res = getExif(`./images/${ file }`);
     res.__filename = file;
     res.__jsDate = res.exif.DateTimeOriginal ? new Date(exifDate2Date(res.exif.DateTimeOriginal)) : null;
 
@@ -94,11 +94,11 @@ console.log('Read exif data');
 
 // filter to data that provides the gps data
 data = data.filter(exif => !!(exif.gps.GPSLatitude || exif.gps.GPSLongitude) || exif.__filename in customLocations);
-console.log(`Found ${data.length} files with gps data`);
+console.log(`Found ${ data.length } files with gps data`);
 
 // filter to the time range
 data = data.filter(exif => (!minDate || exif.date > minDate) && (!maxDate || exif.date < maxDate));
-console.log(`Found ${data.length} files within the time range`);
+console.log(`Found ${ data.length } files within the time range`);
 
 // reduce to a helpful subset of data
 data = data.map(exif => {
@@ -131,13 +131,13 @@ console.log('Sorted');
 
 fs.writeFile(dest, JSON.stringify(data));
 
-let output = `Wrote GPS exif data for ${data.length} images to '${dest}' `;
+let output = `Wrote GPS exif data for ${ data.length } images to '${ dest }' `;
 if (minDate || maxDate) {
 
     output += 'for photos taken ';
-    if (minDate) output += `after '${minDate}' `;
+    if (minDate) output += `after '${ minDate }' `;
     if (minDate && maxDate) output += 'and ';
-    if (maxDate) output += `before '${maxDate}'`;
+    if (maxDate) output += `before '${ maxDate }'`;
 
 }
 console.log(output);
