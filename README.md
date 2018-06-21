@@ -2,9 +2,9 @@
 
 Processes EXIF data from a set of images into a thinner JSON blob that can be used to plot the locations on a map! Built to help visualize and document trips.
 
-[Japan Trip](https://gkjohnson.github.io/travel-photo-visualization/example/#japan)
+[Japan Trip](https://gkjohnson.github.io/travel-photo-visualization/photo-visualization/example/#japan)
 
-[New Zealand Trip](https://gkjohnson.github.io/travel-photo-visualization/example/#newzealand)
+[New Zealand Trip](https://gkjohnson.github.io/travel-photo-visualization/photo-visualization/example/#newzealand)
 
 ![example](docs/example.png)
 
