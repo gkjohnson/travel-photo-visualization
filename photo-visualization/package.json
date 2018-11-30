@@ -1,13 +1,12 @@
 {
   "scripts": {
-    "serve": "static-server",
+    "start": "static-server",
     "generate": "node index.js --dest=\"example/example.json\" --custom-locations=custom-locations.csv"
   },
   "devDependencies": {
     "static-server": "^2.0.5"
   },
   "dependencies": {
-    "deasync": "^0.1.10",
     "exif": "^0.6.0",
     "static-server": "^2.0.5",
     "yargs": "^8.0.2"

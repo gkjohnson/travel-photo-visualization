@@ -1,5 +1,4 @@
 const ExifImage = require('exif');
-const deasync = require('deasync');
 const fs = require('fs');
 const args = require('yargs').argv;
 
@@ -69,75 +68,82 @@ const exifDate2Date = str => {
 const dms2dec = (d, m, s, ref) => (ref === 'S' || ref === 'W' ? -1 : 1) * (d + m / 60 + s / 3600);
 
 // synchronous processing of the exif data
-const getExif = deasync((path, done) => new ExifImage({ image: path }, done));
+const getExif = path => new Promise(done => new ExifImage({ image: path }, (err, data) => done(data)));
 
-// reduce the exif data down to just the GPS, name, and date
-let data;
-data = fs.readdirSync('images');
-console.log(`Found ${ data.length } files`);
+(async function() {
 
-// jpg files only
-data = data.filter(file => /\.jpg$/.test(file));
-console.log(`Found ${ data.length } jpg files`);
+    // reduce the exif data down to just the GPS, name, and date
+    let data;
+    data = fs.readdirSync('images');
+    console.log(`Found ${ data.length } files`);
 
-// pull out exif data
-data = data.map(file => {
+    // jpg files only
+    data = data.filter(file => /\.jpg$/.test(file));
+    console.log(`Found ${ data.length } jpg files`);
 
-    const res = getExif(`./images/${ file }`);
-    res.__filename = file;
-    res.__jsDate = res.exif.DateTimeOriginal ? new Date(exifDate2Date(res.exif.DateTimeOriginal)) : null;
+    // pull out exif data
+    for (const i in data) {
 
-    return res;
+        const file = data[i];
+        const res = await getExif(`./images/${ file }`);
 
-});
-console.log('Read exif data');
+        res.__filename = file;
+        res.__jsDate = res.exif.DateTimeOriginal ? new Date(exifDate2Date(res.exif.DateTimeOriginal)) : null;
 
-// filter to data that provides the gps data
-data = data.filter(exif => !!(exif.gps.GPSLatitude || exif.gps.GPSLongitude) || exif.__filename in customLocations);
-console.log(`Found ${ data.length } files with gps data`);
-
-// filter to the time range
-data = data.filter(exif => (!minDate || exif.date > minDate) && (!maxDate || exif.date < maxDate));
-console.log(`Found ${ data.length } files within the time range`);
-
-// reduce to a helpful subset of data
-data = data.map(exif => {
-
-    const out = {};
-    out.filename = exif.__filename;
-    out.date = exif.__jsDate;
-
-    if (exif.__filename in customLocations) {
-
-        out.lat = customLocations[exif.__filename].lat;
-        out.lon = customLocations[exif.__filename].lon;
-        out.custom = true;
-
-    } else {
-
-        out.lat = dms2dec(...exif.gps.GPSLatitude, exif.gps.GPSLatitudeRef);
-        out.lon = dms2dec(...exif.gps.GPSLongitude, exif.gps.GPSLongitudeRef);
-        out.custom = false;
+        data[i] = res;
 
     }
+    console.log('Read exif data');
 
-    return out;
+    // filter to data that provides the gps data
+    data = data.filter(exif => !!(exif.gps.GPSLatitude || exif.gps.GPSLongitude) || exif.__filename in customLocations);
+    console.log(`Found ${ data.length } files with gps data`);
 
-})
+    // filter to the time range
+    data = data.filter(exif => (!minDate || exif.date > minDate) && (!maxDate || exif.date < maxDate));
+    console.log(`Found ${ data.length } files within the time range`);
 
-    // sort in ascending date order
-    .sort((a, b) => a.date - b.date);
-console.log('Sorted');
+    // reduce to a helpful subset of data
+    data = data.map(exif => {
 
-fs.writeFile(dest, JSON.stringify(data));
+        const out = {};
+        out.filename = exif.__filename;
+        out.date = exif.__jsDate;
 
-let output = `Wrote GPS exif data for ${ data.length } images to '${ dest }' `;
-if (minDate || maxDate) {
+        if (exif.__filename in customLocations) {
 
-    output += 'for photos taken ';
-    if (minDate) output += `after '${ minDate }' `;
-    if (minDate && maxDate) output += 'and ';
-    if (maxDate) output += `before '${ maxDate }'`;
+            out.lat = customLocations[exif.__filename].lat;
+            out.lon = customLocations[exif.__filename].lon;
+            out.custom = true;
 
-}
-console.log(output);
+        } else {
+
+            out.lat = dms2dec(...exif.gps.GPSLatitude, exif.gps.GPSLatitudeRef);
+            out.lon = dms2dec(...exif.gps.GPSLongitude, exif.gps.GPSLongitudeRef);
+            out.custom = false;
+
+        }
+
+        return out;
+
+    })
+
+        // sort in ascending date order
+        .sort((a, b) => a.date - b.date);
+    console.log('Sorted');
+
+    fs.writeFile(dest, JSON.stringify(data), () => {
+
+        let output = `Wrote GPS exif data for ${ data.length } images to '${ dest }' `;
+        if (minDate || maxDate) {
+
+            output += 'for photos taken ';
+            if (minDate) output += `after '${ minDate }' `;
+            if (minDate && maxDate) output += 'and ';
+            if (maxDate) output += `before '${ maxDate }'`;
+
+        }
+        console.log(output);
+
+    });
+})();
