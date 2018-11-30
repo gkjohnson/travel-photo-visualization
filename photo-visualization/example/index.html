@@ -129,7 +129,11 @@
 
         };
 
-        const nameMap = { 'japan': 'Japan Trip', 'newzealand': 'New Zealand Trip' };
+        const nameMap = {
+            'japan': 'Japan Trip',
+            'newzealand': 'New Zealand Trip',
+            'london': 'London Trip'
+        };
         const hash = window.location.hash.substr(1);
         const json = hash in nameMap ? hash : 'japan';
 
