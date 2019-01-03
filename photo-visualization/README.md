@@ -2,12 +2,6 @@
 
 Processes EXIF data from a set of images into a thinner JSON blob that can be used to plot the locations on a map! Built to help visualize and document trips.
 
-[Japan 2016](https://gkjohnson.github.io/travel-photo-visualization/photo-visualization/example/#japan)
-
-[New Zealand 2018](https://gkjohnson.github.io/travel-photo-visualization/photo-visualization/example/#newzealand)
-
-[London 2018](https://gkjohnson.github.io/travel-photo-visualization/photo-visualization/example/#london)
-
 ![example](docs/example.png)
 
 ## To Run
@@ -55,6 +49,5 @@ The output file is an array of json objects that define the image name, date, la
 ## Plans
 - Display image on hover
 - Animated trip playback
-- Use location hash to accomodate multiple trip files
 - An "interpolation" or "nearest-time" mode where photos without data are not dropped but grouped together
 - Save view locations and zoom level for easy sharing

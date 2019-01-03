@@ -91,7 +91,7 @@
                     // fetch for raw github to account for geojson being saved to lfs
                     let url = `./geojson/${ id }.json`;
                     if (/github/.test(location.origin)) {
-                        url = `https://github.com/gkjohnson/travel-photo-visualization/blob/master/travel-map/geojson/${ url }?raw=true`
+                        url = `https://github.com/gkjohnson/travel-photo-visualization/blob/master/travel-map/${ url }?raw=true`
                     }
 
                     promises.push(
