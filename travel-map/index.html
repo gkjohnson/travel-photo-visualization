@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+
+    <title>Trip Visualization</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.1.0/leaflet.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.1.0/leaflet.js"></script>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        body {
+            font-family: Roboto, helvetica, arial, sans-serif;
+            text-align: center;
+            /*font-weight: lighter;*/
+            font-size: 60px;
+
+            display: flex;
+        }
+
+        #header {
+            position: absolute;
+            padding-right: 15px;
+            right: 0;
+            z-index: 500;
+            opacity: 0.75;
+            color: #37474F;
+
+            pointer-events: none;
+        }
+
+        #dates {
+            font-size: 27px;
+            display: block;
+            font-weight: lighter;
+        }
+
+        iframe {
+            border: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        #map {
+            border: 0;
+            width: 100%;
+            height: 100%;
+            background: #d4dadc;
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <div id="title">loading...</div>
+        <span id="dates"></span>
+    </div>
+    <div id="map"></div>
+    <script type="text/javascript">
+        /* global L */
+        const toDateStr = d => `${ d.getMonth() + 1 }/${ d.getDate() }/${ d.getFullYear() }`;
+
+        // use CartoDB-light-nolabels from
+        // https://leaflet-extras.github.io/leaflet-providers/preview/
+        // For some reason this map only seems to have data from -85 -> 85 latitude,
+        // so prevent the user from panning past that
+        const map = L.map('map', {
+            maxBounds: new L.latLngBounds(L.latLng(-85, -360), L.latLng(85, 360)),
+        });
+        L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', { maxZoom: 19, noWrap: true }).addTo(map);
+        map.fitBounds(new L.LatLngBounds(L.latLng(-55, -90), L.latLng(55, 90)));
+
+        fetch('./places.csv')
+            .then(res => res.text())
+            .then(text => {
+
+                const items = text.split(/[\n\r]+/g).filter(t => !!t).filter(t => !/^#/.test(t.trim()));
+                const bundles = [];
+                const promises = [];
+                let lastBundle = null;
+                items.forEach(item => {
+
+                    const isContainer = !/^\s/.test(item);
+                    const tokens = item.split(/\|/g).map(t => t.trim()).filter(t => !!t);
+                    const [id, name] = tokens;
+                    console.log(item)
+
+                    promises.push(
+
+                        fetch(`./geojson/${ id }.json`)
+                            .then(res => res.json())
+                            .then(geojson => {
+                                L
+                                    .geoJSON(geojson.geometries, {
+                                        fillOpacity: isContainer ? 0.1 : 0.5,
+                                        color: isContainer ? '#00BCD4' : '#00ACC1',
+                                        weight: 0.5,
+                                        strokeOpacity: 0,
+                                        onEachFeature: function(feature, layer) {
+                                            layer.on('mouseover', () => console.log(name))
+                                        },
+                                    })
+                                    .addTo(map);
+                            })
+                            .catch(e => console.error(id, name, e))
+
+                    );
+
+                });
+
+
+            })
+
+
+
+        // const loadMap = (mapjson, name) => {
+
+        //     fetch(mapjson)
+        //         .then(res => res.json())
+        //         .then(json => {
+
+        //             const latlon = json.map(data => {
+
+        //                 const lat = data.lat;
+        //                 const lon = data.lon;
+
+        //                 return new L.LatLng(lat, lon);
+
+        //             });
+
+        //             new L.Polyline(latlon, {
+        //                 color: '#E91E63',
+        //                 weight: 1,
+        //                 opacity: 1,
+        //                 smoothFactor: 1,
+        //             }).addTo(map);
+
+        //             latlon.forEach(pt => {
+
+        //                 new L.Circle(pt, {
+        //                     color: '#E91E63',
+        //                     fillOpacity: 1,
+        //                     smoothFactor: 1,
+        //                     radius: 4,
+        //                     weight: 0,
+        //                 }).addTo(map);
+
+        //             });
+
+        //             map.fitBounds(new L.LatLngBounds(latlon));
+
+        //             // Generate dates to display
+        //             let minDate = null;
+        //             let maxDate = null;
+        //             json.forEach(data => {
+
+        //                 data.date = new Date(data.date);
+
+        //                 if (!minDate || data.date < minDate) minDate = data.date;
+        //                 if (!maxDate || data.date > maxDate) maxDate = data.date;
+
+        //             });
+
+        //             const str = toDateStr(minDate) + ' to ' + toDateStr(maxDate);
+        //             document.getElementById('dates').innerText = str;
+        //             document.getElementById('title').innerText = name;
+
+        //         });
+
+        // };
+
+        // const nameMap = {
+        //     'japan': 'Japan Trip',
+        //     'newzealand': 'New Zealand Trip',
+        //     'london': 'London Trip'
+        // };
+        // const hash = window.location.hash.substr(1);
+        // const json = hash in nameMap ? hash : 'japan';
+
+        // loadMap(`${ json }.json`, nameMap[json]);
+
+    </script>
+</body>
+</html>

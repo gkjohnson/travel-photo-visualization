@@ -10,7 +10,7 @@ Projects for documenting and planning upcoming trips and vacations.
 
 [London 2018](https://gkjohnson.github.io/travel-photo-visualization/photo-visualization/example/#london)
 
-![example](docs/example.png)
+![example](./photo-visualization/docs/example.png)
 
 ## Travel Map
 
