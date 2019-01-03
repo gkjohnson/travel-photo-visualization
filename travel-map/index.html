@@ -3,7 +3,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 
-    <title>Trip Visualization</title>
+    <title>Travel Map</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300" rel="stylesheet"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.1.0/leaflet.css" rel="stylesheet"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.1.0/leaflet.js"></script>
@@ -55,10 +55,10 @@
     </style>
 </head>
 <body>
-    <div id="header">
+    <!-- <div id="header">
         <div id="title">loading...</div>
         <span id="dates"></span>
-    </div>
+    </div> -->
     <div id="map"></div>
     <script type="text/javascript">
         /* global L */
@@ -114,74 +114,6 @@
 
 
             })
-
-
-
-        // const loadMap = (mapjson, name) => {
-
-        //     fetch(mapjson)
-        //         .then(res => res.json())
-        //         .then(json => {
-
-        //             const latlon = json.map(data => {
-
-        //                 const lat = data.lat;
-        //                 const lon = data.lon;
-
-        //                 return new L.LatLng(lat, lon);
-
-        //             });
-
-        //             new L.Polyline(latlon, {
-        //                 color: '#E91E63',
-        //                 weight: 1,
-        //                 opacity: 1,
-        //                 smoothFactor: 1,
-        //             }).addTo(map);
-
-        //             latlon.forEach(pt => {
-
-        //                 new L.Circle(pt, {
-        //                     color: '#E91E63',
-        //                     fillOpacity: 1,
-        //                     smoothFactor: 1,
-        //                     radius: 4,
-        //                     weight: 0,
-        //                 }).addTo(map);
-
-        //             });
-
-        //             map.fitBounds(new L.LatLngBounds(latlon));
-
-        //             // Generate dates to display
-        //             let minDate = null;
-        //             let maxDate = null;
-        //             json.forEach(data => {
-
-        //                 data.date = new Date(data.date);
-
-        //                 if (!minDate || data.date < minDate) minDate = data.date;
-        //                 if (!maxDate || data.date > maxDate) maxDate = data.date;
-
-        //             });
-
-        //             const str = toDateStr(minDate) + ' to ' + toDateStr(maxDate);
-        //             document.getElementById('dates').innerText = str;
-        //             document.getElementById('title').innerText = name;
-
-        //         });
-
-        // };
-
-        // const nameMap = {
-        //     'japan': 'Japan Trip',
-        //     'newzealand': 'New Zealand Trip',
-        //     'london': 'London Trip'
-        // };
-        // const hash = window.location.hash.substr(1);
-        // const json = hash in nameMap ? hash : 'japan';
-
-        // loadMap(`${ json }.json`, nameMap[json]);
 
     </script>
 </body>
