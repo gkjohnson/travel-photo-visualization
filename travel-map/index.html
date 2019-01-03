@@ -86,7 +86,8 @@
 
                     const isContainer = !/^\s/.test(item);
                     const tokens = item.split(/\|/g).map(t => t.trim()).filter(t => !!t);
-                    const [id, name] = tokens;
+                    const [id, name, visitedStr] = tokens;
+                    const visited = !!visitedStr && visitedStr !== 'false';
 
                     promises.push(
 
@@ -95,8 +96,8 @@
                             .then(geojson => {
                                 L
                                     .geoJSON(geojson.geometries, {
-                                        fillOpacity: isContainer ? 0.1 : 0.5,
-                                        color: isContainer ? '#00BCD4' : '#00ACC1',
+                                        fillOpacity: isContainer ? 0.2 : 0.5,
+                                        color: visited ? '#E91E63' : '#00BCD4',
                                         weight: 0.5,
                                         strokeOpacity: 0,
                                         onEachFeature: function(feature, layer) {
