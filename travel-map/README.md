@@ -20,3 +20,5 @@ APIs found [here](https://gis.stackexchange.com/questions/183248/getting-polygon
 - Add hover color change
 - Add list of places
 - Add script to download the geojson and find the parent regions of visited places (ie LA -> CA)
+- Use simplified geojson objects
+- Speed up zoom performance (see [Leaflet/Leaflet#6455](https://github.com/Leaflet/Leaflet/issues/6455))

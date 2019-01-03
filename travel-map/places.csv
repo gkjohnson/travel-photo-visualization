@@ -50,15 +50,17 @@
 
 ## Japan
 1842245         | Kyushu
-    # Nagasaki
-    # Kagoshima
-    # Yakushima
-    # Fukuoka
+    4011885     | Nagasaki
+    3962762     | Kagoshima
+    4098977     | Yakushima
+    1553735     | Fukuoka
 6677259         | Honshu
-    # Tokyo
-    # Kyoto
-    # Osaka
-    # Hakone
+    1761742     | Tokyo
+    357794      | Kyoto
+    358674      | Osaka
+    2689487     | Hakone
+    358631      | Nara
+    4196326     | Nikko
 1847663         | Shikoku                   | true
 3792634         | Hokkaido                  | true
 
