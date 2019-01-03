@@ -19,3 +19,4 @@ APIs found [here](https://gis.stackexchange.com/questions/183248/getting-polygon
 - Add hover popup to location name
 - Add hover color change
 - Add list of places
+- Add script to download the geojson and find the parent regions of visited places (ie LA -> CA)
