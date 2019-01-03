@@ -15,3 +15,5 @@ Projects for documenting and planning upcoming trips and vacations.
 ## [Travel Map](./travel-map)
 
 [View Map](https://gkjohnson.github.io/travel-photo-visualization/travel-map/)
+
+![example](./travel-map/docs/example.png)
