@@ -88,16 +88,10 @@
                     const tokens = item.split(/\|/g).map(t => t.trim()).filter(t => !!t);
                     const [id, name] = tokens;
 
-                    // fetch for raw github to account for geojson being saved to lfs
-                    let url = `./geojson/${ id }.json`;
-                    if (/github/.test(location.origin)) {
-                        url = `https://github.com/gkjohnson/travel-photo-visualization/blob/master/travel-map/${ url }?raw=true`
-                    }
-
                     promises.push(
 
-                        fetch(url)
-                            .then(res => res.json(), { mode: 'no-cors' })
+                        fetch(`./geojson/${ id }.json`)
+                            .then(res => res.json())
                             .then(geojson => {
                                 L
                                     .geoJSON(geojson.geometries, {
