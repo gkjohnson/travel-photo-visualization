@@ -1,1 +1,0 @@
-travel-map/geojson/*.json filter=lfs diff=lfs merge=lfs -text
