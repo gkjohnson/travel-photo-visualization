@@ -13,28 +13,33 @@ Add images into `images` folder next to the `index.js` file
 Run `node index.js --dest=".../dest.json"` with the arguments described below to generate a JSON file that can be graphed!
 
 ## Command Line Arguments
+### target
+*Required*
+
+The source folder to read images from.
+
 ### dest
 *Required*
 
-Destination file to output the json to
+Destination file to output the JSON to.
 
 ### min
 *Optional*
 
-Javascript parse-able date string that will be used to define the min bound of which images should be considered relevant
+Javascript parse-able date string that will be used to define the min bound of which images should be considered relevant.
 
 ### max
 *Optional*
 
-Javascript parse-able date string that will be used to define the max bound of which images should be considered relevant
+Javascript parse-able date string that will be used to define the max bound of which images should be considered relevant.
 
 ### custom-locations
 *Optional*
 
-File path to load with each line containing a filename and the latitude and longitude separated by whitespace to map the a particular image
+File path to load with each line containing a filename and the latitude and longitude separated by whitespace to map the a particular image.
 
 ## Output
-The output file is an array of json objects that define the image name, date, lat / lon sorted in date-ascending order, and a boolean indicating whether or not the lat / lon are from the custom locations file.
+The output file is an array of JSON objects that define the image name, date, lat / lon sorted in date-ascending order, and a boolean indicating whether or not the lat / lon are from the custom locations file.
 ```
 [{
   filename: <original filename>,

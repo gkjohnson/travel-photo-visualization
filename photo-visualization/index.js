@@ -1,10 +1,13 @@
 const ExifImage = require('exif');
 const fs = require('fs');
+const path = require('path');
 const args = require('yargs').argv;
 
 // pull out arguments
+if (!args.target) throw new Error('No target folder provided');
 if (!args.dest) throw new Error('No destination provided');
-const dest = args.dest;
+const sourceFolder = path.resolve(args.target);
+const destinationFile = path.resolve(args.dest);
 const minDate = args.min ? new Date(args.min) : null;
 const maxDate = args.max ? new Date(args.max) : null;
 
@@ -74,7 +77,7 @@ const getExif = path => new Promise(done => new ExifImage({ image: path }, (err,
 
     // reduce the exif data down to just the GPS, name, and date
     let data;
-    data = fs.readdirSync('images');
+    data = fs.readdirSync(sourceFolder);
     console.log(`Found ${ data.length } files`);
 
     // jpg files only
@@ -84,8 +87,10 @@ const getExif = path => new Promise(done => new ExifImage({ image: path }, (err,
     // pull out exif data
     for (const i in data) {
 
+
         const file = data[i];
-        const res = await getExif(`./images/${ file }`);
+        const filePath = path.join(sourceFolder, file);
+        const res = await getExif(filePath);
 
         res.__filename = file;
         res.__jsDate = res.exif.DateTimeOriginal ? new Date(exifDate2Date(res.exif.DateTimeOriginal)) : null;
@@ -132,9 +137,9 @@ const getExif = path => new Promise(done => new ExifImage({ image: path }, (err,
         .sort((a, b) => a.date - b.date);
     console.log('Sorted');
 
-    fs.writeFile(dest, JSON.stringify(data), () => {
+    fs.writeFile(destinationFile, JSON.stringify(data), () => {
 
-        let output = `Wrote GPS exif data for ${ data.length } images to '${ dest }' `;
+        let output = `Wrote GPS exif data for ${ data.length } images to '${ destinationFile }' `;
         if (minDate || maxDate) {
 
             output += 'for photos taken ';
