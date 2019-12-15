@@ -64,7 +64,7 @@
 1847663         | Shikoku                   | true
 3792634         | Hokkaido                  | true
 
-
+## New Zealand
 556706          | New Zealand
     2094141     | Auckland
     4429897     | Queenstown
@@ -72,6 +72,16 @@
     1638991     | Wellington
     4266705     | Rotorua
     4269618     | Taupo District
+
+## India
+304716          | India
+    7888990     | Mumbai
+    7255986     | Hyderabad
+    1972682     | Raipur
+    1950062     | Jaipur
+    1798829     | Jodhpur
+    1950135     | Udaipur
+
 
 # Plans
 ## Philippines
@@ -92,8 +102,6 @@
 2978650         | Norway                    | true
 ## Sweden
 52822           | Sweden                    | true
-## India
-304716          | India                     | true
 ## Morocco
 3630439         | Morocco                   | true
 ## Iceland
