@@ -10,7 +10,9 @@ Projects for documenting and planning upcoming trips and vacations.
 
 [London 2018](https://gkjohnson.github.io/travel-photo-visualization/photo-visualization/example/#london)
 
-[Philippines 2018](https://gkjohnson.github.io/travel-photo-visualization/photo-visualization/example/#philippines)
+[Philippines 2019](https://gkjohnson.github.io/travel-photo-visualization/photo-visualization/example/#philippines)
+
+[India 2019](https://gkjohnson.github.io/travel-photo-visualization/photo-visualization/example/#india)
 
 ![example](./photo-visualization/docs/example.png)
 

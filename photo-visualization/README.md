@@ -8,9 +8,7 @@ Processes EXIF data from a set of images into a thinner JSON blob that can be us
 
 Install the npm packages with `npm install`
 
-Add images into `images` folder next to the `index.js` file
-
-Run `node index.js --dest=".../dest.json"` with the arguments described below to generate a JSON file that can be graphed!
+Run `node index.js --target=".../images/trip" --dest=".../dest.json"` with the arguments described below to generate a JSON file that can be graphed!
 
 ## Command Line Arguments
 ### target

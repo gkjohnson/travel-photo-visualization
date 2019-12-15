@@ -1,7 +1,7 @@
 {
   "scripts": {
     "start": "static-server",
-    "generate": "node index.js --dest=\"example/example.json\" --custom-locations=custom-locations.csv"
+    "generate": "node index.js --target=\"images/data\" --dest=\"example/example.json\" --custom-locations=custom-locations.csv"
   },
   "devDependencies": {
     "static-server": "^2.0.5"

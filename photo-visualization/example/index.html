@@ -95,7 +95,7 @@
                         smoothFactor: 1,
                     }).addTo(map);
 
-                    latlon.forEach(pt => {
+                    latlon.forEach(( pt, i ) => {
 
                         new L.Circle(pt, {
                             color: '#E91E63',
@@ -103,9 +103,13 @@
                             smoothFactor: 1,
                             radius: 4,
                             weight: 0,
-                        }).addTo(map);
+                        }).addTo(map).on( 'click', () => {
 
-                    });
+                            console.log( json[ i ] );
+
+                        });
+
+                    })
 
                     map.fitBounds(new L.LatLngBounds(latlon));
 
@@ -133,7 +137,8 @@
             'japan': 'Japan Trip',
             'newzealand': 'New Zealand Trip',
             'london': 'London Trip',
-            'philippines': 'Philippines Trip'
+            'philippines': 'Philippines Trip',
+            'india': 'India Trip'
         };
         const hash = window.location.hash.substr(1);
         const json = hash in nameMap ? hash : 'japan';

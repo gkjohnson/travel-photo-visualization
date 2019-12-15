@@ -87,17 +87,21 @@ const getExif = path => new Promise(done => new ExifImage({ image: path }, (err,
     // pull out exif data
     for (const i in data) {
 
-
         const file = data[i];
         const filePath = path.join(sourceFolder, file);
         const res = await getExif(filePath);
 
-        res.__filename = file;
-        res.__jsDate = res.exif.DateTimeOriginal ? new Date(exifDate2Date(res.exif.DateTimeOriginal)) : null;
+        if ( res ) {
+
+            res.__filename = file;
+            res.__jsDate = res.exif.DateTimeOriginal ? new Date(exifDate2Date(res.exif.DateTimeOriginal)) : null;
+
+        }
 
         data[i] = res;
 
     }
+    data = data.filter( i => i );
     console.log('Read exif data');
 
     // filter to data that provides the gps data
